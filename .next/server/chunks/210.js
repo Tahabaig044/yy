@@ -1,0 +1,1 @@
+"use strict";exports.id=210,exports.ids=[210],exports.modules={8210:(t,e,s)=>{s.r(e),s.d(e,{default:()=>r});let r=(0,s(5347).createProxy)(String.raw`C:\abc\src\components\NavIcons.tsx#default`)}};
