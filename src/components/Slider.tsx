@@ -34,13 +34,13 @@ const slides = [
 const Slider = () => {
   const [current, setCurrent] = useState(0);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  //   }, 3000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 3000);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="h-[calc(100vh-80px)] overflow-hidden">
@@ -74,7 +74,9 @@ const Slider = () => {
                 alt=""
                 fill
                 sizes="100%"
-                className="object-cover"
+                // className="object-contain"
+                className="w-full h-full object-cover rounded-lg shadow-md"
+                // className="object-cover"
               />
             </div>
           </div>

@@ -5,6 +5,12 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { media as wixMedia } from "@wix/sdk";
 import { useWixClient } from "@/hooks/useWixClient";
 import { currentCart } from "@wix/ecom";
+interface Cart {
+  subtotal: {
+      amount: number;
+  };
+  // other properties...
+}
 
 const CartModal = () => {
   // TEMPORARY
@@ -12,6 +18,11 @@ const CartModal = () => {
 
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem } = useCartStore();
+  // alert(useCartStore())
+  console.log(cart)
+  console.log(isLoading)
+  console.log(removeItem)
+  
 
   const handleCheckout = async () => {
     try {
@@ -36,6 +47,7 @@ const CartModal = () => {
       console.log(err);
     }
   };
+  const cartWithSubtotal = cart as Cart;
 
   return (
     <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
@@ -50,12 +62,12 @@ const CartModal = () => {
             {cart.lineItems.map((item) => (
               <div className="flex gap-4" key={item._id}>
                 {item.image && (
-                  <Image
-                    src={wixMedia.getScaledToFillImageUrl(
-                      item.image,
+                  // <Image src="https://images.pexels.com/photos/27741970/pexels-photo-27741970/free-photo-of-man-with-camera-on-beach.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load"
+                   <Image src={wixMedia.getScaledToFillImageUrl(item.image,
                       72,
                       96,
                       {}
+                    
                     )}
                     alt=""
                     width={72}
@@ -104,7 +116,9 @@ const CartModal = () => {
           <div className="">
             <div className="flex items-center justify-between font-semibold">
               <span className="">Subtotal</span>
-              <span className="">$</span>
+              
+              <span>${cartWithSubtotal.subtotal?.amount ?? 0}</span>
+
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Shipping and taxes calculated at checkout.
@@ -117,6 +131,7 @@ const CartModal = () => {
                 className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
                 disabled={isLoading}
                 onClick={handleCheckout}
+                // onClick={()=>alert(handleCheckout)}
               >
                 Checkout
               </button>
