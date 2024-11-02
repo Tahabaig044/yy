@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCartStore } from "@/hooks/useCartStore";
 import { media as wixMedia } from "@wix/sdk";
 import { useWixClient } from "@/hooks/useWixClient";
-import { currentCart } from "@wix/ecom";
+
 interface Cart {
   subtotal: {
       amount: number;
@@ -24,29 +24,7 @@ const CartModal = () => {
   console.log(removeItem)
   
 
-  const handleCheckout = async () => {
-    try {
-      const checkout =
-        await wixClient.currentCart.createCheckoutFromCurrentCart({
-          channelType: currentCart.ChannelType.WEB,
-        });
-
-      const { redirectSession } =
-        await wixClient.redirects.createRedirectSession({
-          ecomCheckout: { checkoutId: checkout.checkoutId },
-          callbacks: {
-            postFlowUrl: window.location.origin,
-            thankYouPageUrl: `${window.location.origin}/success`,
-          },
-        });
-
-      if (redirectSession?.fullUrl) {
-        window.location.href = redirectSession.fullUrl;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  
   const cartWithSubtotal = cart as Cart;
 
   return (
@@ -130,7 +108,7 @@ const CartModal = () => {
               <button
                 className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
                 disabled={isLoading}
-                onClick={handleCheckout}
+               
                 // onClick={()=>alert(handleCheckout)}
               >
                 Checkout
